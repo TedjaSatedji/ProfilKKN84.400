@@ -396,23 +396,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default sample comments to display if guestbook is empty
     const defaultComments = [
         {
-            name: "Pak Joko Priyono",
-            role: "Perangkat Desa",
-            message: "Mewakili warga Desa Andongsili, kami menyambut hangat kedatangan adik-adik KKN UPN Yogyakarta. Program Pondok Pintar sangat membantu belajar anak-anak di sini.",
-            date: "17 Juni 2026, 09:30"
+            name: "Placeholder",
+            role: "Placeholder",
+            message: "Placeholder",
+            date: "Placeholder"
         },
-        {
-            name: "Ibu Sumarni (UMKM Kelanting)",
-            role: "Warga Desa",
-            message: "Alhamdulillah dibantu rebranding kemasan dan didaftarkan ke Google Maps. Sekarang pembeli dari luar kota lebih gampang mencari alamat rumah produksi kelanting saya.",
-            date: "16 Juni 2026, 14:15"
-        },
-        {
-            name: "Drs. Eko Murti, M.Si.",
-            role: "Dosen/DPL",
-            message: "Jaga kesehatan, koordinasi yang baik dengan perangkat desa setempat, dan laksanakan program kerja dengan penuh tanggung jawab bela negara.",
-            date: "11 Juni 2026, 10:05"
-        }
     ];
 
     // Load messages from localStorage or initialize with defaults
