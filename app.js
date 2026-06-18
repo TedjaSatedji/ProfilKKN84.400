@@ -318,12 +318,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (member.photo) {
                     if (detailPhoto) {
-                        detailPhoto.src = member.photo;
-                        detailPhoto.alt = member.name;
-                        detailPhoto.classList.remove('hidden');
-                    }
-                    if (detailIcon) {
-                        detailIcon.classList.add('hidden');
+                        // Use a placeholder icon while loading
+                        detailPhoto.classList.add('hidden');
+                        detailPhoto.src = '';
+                        if (detailIcon) {
+                            detailIcon.classList.remove('hidden');
+                            detailIcon.className = "fa-solid fa-spinner fa-spin text-muted"; // Placeholder
+                        }
+
+                        const tempImg = new Image();
+                        tempImg.onload = () => {
+                            // Verify member hasn't changed during load
+                            if (detailName && detailName.textContent === member.name) {
+                                detailPhoto.src = member.photo;
+                                detailPhoto.alt = member.name;
+                                detailPhoto.classList.remove('hidden');
+                                if (detailIcon) detailIcon.classList.add('hidden');
+                            }
+                        };
+                        tempImg.onerror = () => {
+                            if (detailName && detailName.textContent === member.name) {
+                                if (detailIcon) {
+                                    detailIcon.className = member.iconClass;
+                                }
+                            }
+                        };
+                        tempImg.src = member.photo;
                     }
                 } else {
                     if (detailPhoto) {
