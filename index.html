@@ -187,80 +187,21 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">Rencana Aksi</span>
-                <h2 class="section-title">Program Kerja Unggulan</h2>
-                <p class="section-subtitle">Inisiatif program kerja KKN Kelompok AA 84.400 yang terbagi ke dalam 4
-                    bidang utama.</p>
+                <h2 class="section-title">Program Kerja Pengabdian</h2>
+                <p class="section-subtitle">Inisiatif program kerja KKN Kelompok AA 84.400 yang terbagi berdasarkan kategori pelaksanaan.</p>
             </div>
 
             <!-- Proker Filters -->
             <div class="proker-filters">
-                <button class="filter-btn active" data-filter="all">Semua Bidang</button>
-                <button class="filter-btn" data-filter="pendidikan">Pendidikan</button>
-                <button class="filter-btn" data-filter="ekonomi">Ekonomi & UMKM</button>
-                <button class="filter-btn" data-filter="kesehatan">Kesehatan & Lingkungan</button>
-                <button class="filter-btn" data-filter="infrastruktur">Infrastruktur & IT</button>
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="Proker Bersama">Proker Bersama</button>
+                <button class="filter-btn" data-filter="Proker Individu">Proker Individu</button>
             </div>
 
             <!-- Proker Grid -->
-            <div class="proker-grid">
-                <!-- Proker Item 1 -->
-                <div class="proker-card" data-category="pendidikan">
-                    <div class="proker-icon-box bg-maroon"><i class="fa-solid fa-book-open"></i></div>
-                    <div class="proker-body">
-                        <span class="proker-tag">Pendidikan</span>
-                        <h3 class="proker-title">TBD</h3>
-                        <p class="proker-desc">Program kerja bidang pendidikan sedang direncanakan bersama perangkat
-                            desa.</p>
-                        <div class="proker-footer">
-                            <span class="proker-status status-planned"><i class="fa-solid fa-hourglass-start"></i>
-                                TBD</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Proker Item 2 -->
-                <div class="proker-card" data-category="ekonomi">
-                    <div class="proker-icon-box bg-blue"><i class="fa-solid fa-store"></i></div>
-                    <div class="proker-body">
-                        <span class="proker-tag">Ekonomi & UMKM</span>
-                        <h3 class="proker-title">TBD</h3>
-                        <p class="proker-desc">Program kerja pemberdayaan ekonomi dan UMKM sedang direncanakan bersama
-                            warga setempat.</p>
-                        <div class="proker-footer">
-                            <span class="proker-status status-planned"><i class="fa-solid fa-hourglass-start"></i>
-                                TBD</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Proker Item 3 -->
-                <div class="proker-card" data-category="kesehatan">
-                    <div class="proker-icon-box bg-pink"><i class="fa-solid fa-heart-pulse"></i></div>
-                    <div class="proker-body">
-                        <span class="proker-tag">Kesehatan & Lingkungan</span>
-                        <h3 class="proker-title">TBD</h3>
-                        <p class="proker-desc">Program kerja bidang kesehatan masyarakat dan kelestarian lingkungan
-                            sedang disinkronisasikan.</p>
-                        <div class="proker-footer">
-                            <span class="proker-status status-planned"><i class="fa-solid fa-hourglass-start"></i>
-                                TBD</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Proker Item 4 -->
-                <div class="proker-card" data-category="infrastruktur">
-                    <div class="proker-icon-box bg-navy"><i class="fa-solid fa-laptop-code"></i></div>
-                    <div class="proker-body">
-                        <span class="proker-tag">Infrastruktur & IT</span>
-                        <h3 class="proker-title">TBD</h3>
-                        <p class="proker-desc">Program kerja digitalisasi desa dan pengembangan sarana prasarana sedang
-                            dirancang.</p>
-                        <div class="proker-footer">
-                            <span class="proker-status status-planned"><i class="fa-solid fa-hourglass-start"></i>
-                                TBD</span>
-                        </div>
-                    </div>
+            <div class="proker-grid" id="proker-grid-container">
+                <div class="loading-spinner-wrapper" style="display: flex; justify-content: center; align-items: center; padding: 40px; width: 100%;">
+                    <div class="loader-spinner"></div>
                 </div>
             </div>
         </div>
@@ -275,16 +216,16 @@
                 <p class="section-subtitle">Catatan dokumentasi harian kegiatan pengabdian KKN AA 84.400.</p>
             </div>
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">TBD</div>
-                    <div class="timeline-content">
-                        <h3>Logbook Harian - TBD</h3>
-                        <p>Catatan log harian aktivitas KKN Kelompok AA 84.400 akan diperbarui secara berkala setelah
-                            masa pengabdian di lapangan resmi dimulai.</p>
-                        <span class="timeline-badge"><i class="fa-solid fa-hourglass-start"></i> TBD</span>
-                    </div>
+            <!-- Logbook Filters -->
+            <div class="logbook-filters">
+                <button class="logbook-filter-btn active" data-filter="all">Semua Fase</button>
+                <button class="logbook-filter-btn" data-filter="Pra-KKN">Pra-KKN</button>
+                <button class="logbook-filter-btn" data-filter="Pelaksanaan KKN">Pelaksanaan KKN</button>
+            </div>
+
+            <div class="timeline" id="logbook-timeline-container">
+                <div class="loading-spinner-wrapper" style="display: flex; justify-content: center; align-items: center; padding: 40px; width: 100%;">
+                    <div class="loader-spinner"></div>
                 </div>
             </div>
         </div>
@@ -488,6 +429,56 @@
         </div>
     </footer>
 
+    <!-- 5. DETAILS MODAL -->
+    <div id="details-modal" class="custom-modal hidden">
+        <div class="custom-modal-backdrop" onclick="closeDetailsModal()"></div>
+        <div class="custom-modal-content">
+            <button class="custom-modal-close" onclick="closeDetailsModal()" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="custom-modal-header">
+                <span id="modal-category-badge" class="badge">Kategori</span>
+                <span id="modal-date" class="modal-date">Tanggal</span>
+                <h2 id="modal-title" class="modal-title">Judul Proker / Logbook</h2>
+            </div>
+            <div class="custom-modal-body">
+                <div class="modal-split-layout">
+                    <!-- Left: Gallery Carousel -->
+                    <div class="modal-gallery-side" id="modal-gallery-side">
+                        <div class="carousel-container">
+                            <div class="carousel-track-container">
+                                <div class="carousel-track" id="carousel-track">
+                                    <!-- Dynamic Carousel items -->
+                                </div>
+                            </div>
+                            <button class="carousel-nav carousel-prev" id="carousel-prev" aria-label="Previous Image">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-nav carousel-next" id="carousel-next" aria-label="Next Image">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                            <div class="carousel-dots" id="carousel-dots">
+                                <!-- Dynamic Dots -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right: Text Content -->
+                    <div class="modal-text-side">
+                        <div id="modal-markdown-content" class="markdown-body">
+                            <!-- parsed markdown content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. LIGHTBOX OVERLAY -->
+    <div id="lightbox-overlay" class="lightbox-overlay hidden" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close Zoom"><i class="fa-solid fa-xmark"></i></button>
+        <img id="lightbox-image" src="" alt="Zoomed Image" onclick="event.stopPropagation()">
+    </div>
+
+    <!-- Marked.js for Markdown Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- App Script -->
     <script src="app.js"></script>
 </body>

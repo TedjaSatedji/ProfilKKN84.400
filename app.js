@@ -75,39 +75,185 @@ document.addEventListener('DOMContentLoaded', () => {
     // Execute routing on page load
     handleRouting();
 
-    // --- 3. Program Kerja (Proker) Filter ---
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const prokerCards = document.querySelectorAll('.proker-card');
+    // --- 3. API Base URL and Data Loading ---
+    const API_BASE_URL = 'http://127.0.0.1:8067'; // Cloudflare Tunnel URL or Local IP
 
+    const prokerGridContainer = document.getElementById('proker-grid-container');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    let prokersData = [];
+
+    const fetchProkers = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/proker`);
+            if (!response.ok) throw new Error('Gagal mengambil data program kerja');
+            prokersData = await response.json();
+            renderProkers('all');
+        } catch (error) {
+            console.error(error);
+            if (prokerGridContainer) {
+                prokerGridContainer.innerHTML = `<div class="error-msg" style="color: var(--color-primary); font-weight: 600; text-align: center; padding: 20px; width: 100%;">Gagal memuat Program Kerja. Pastikan server backend aktif.</div>`;
+            }
+        }
+    };
+
+    const renderProkers = (filter) => {
+        if (!prokerGridContainer) return;
+        prokerGridContainer.innerHTML = '';
+
+        const filteredProkers = prokersData.filter(proker => {
+            if (filter === 'all') return true;
+            return proker.type === filter;
+        });
+
+        if (filteredProkers.length === 0) {
+            prokerGridContainer.innerHTML = `<div class="empty-msg" style="text-align: center; padding: 40px; color: var(--color-text-muted); width: 100%;">Belum ada program kerja untuk kategori ini.</div>`;
+            return;
+        }
+
+        filteredProkers.forEach(proker => {
+            const prokerCard = document.createElement('div');
+            prokerCard.className = 'proker-card';
+            prokerCard.setAttribute('data-category', proker.type);
+            prokerCard.style.cursor = 'pointer';
+
+            // Determine badge class for status
+            let statusClass = 'status-planned';
+            let statusIcon = 'fa-hourglass-start';
+            if (proker.status === 'Selesai') {
+                statusClass = 'status-completed';
+                statusIcon = 'fa-circle-check';
+            } else if (proker.status === 'Sedang Berjalan') {
+                statusClass = 'status-ongoing';
+                statusIcon = 'fa-spinner fa-spin';
+            }
+
+            // Determine background and icon color based on category/owner
+            let iconBoxClass = proker.type === 'Proker Bersama' ? 'bg-maroon' : 'bg-blue';
+            let icon = proker.type === 'Proker Bersama' ? 'fa-people-group' : 'fa-user-gear';
+
+            // Parse description using marked if available
+            const descHtml = typeof marked !== 'undefined' ? marked.parse(proker.description_markdown) : proker.description_markdown;
+
+            prokerCard.innerHTML = `
+                <div class="proker-icon-box ${iconBoxClass}"><i class="fa-solid ${icon}"></i></div>
+                <div class="proker-body">
+                    <span class="proker-tag">${proker.type} ${proker.owner_name ? `• ${proker.owner_name}` : ''}</span>
+                    <h3 class="proker-title">${escapeHTML(proker.title)}</h3>
+                    <div class="proker-desc">${descHtml}</div>
+                    <div class="proker-footer">
+                        <span class="proker-status ${statusClass}"><i class="fa-solid ${statusIcon}"></i> ${proker.status}</span>
+                    </div>
+                </div>
+            `;
+
+            prokerCard.addEventListener('click', () => {
+                openDetailsModal(proker, 'Proker');
+            });
+
+            prokerGridContainer.appendChild(prokerCard);
+        });
+    };
+
+    // Filter button click handler
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Remove active class from all buttons, add to current
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-
             const filterValue = button.getAttribute('data-filter');
-
-            prokerCards.forEach(card => {
-                const category = card.getAttribute('data-category');
-
-                // Add transitional scaling out
-                card.style.transform = 'scale(0.85)';
-                card.style.opacity = '0';
-
-                setTimeout(() => {
-                    if (filterValue === 'all' || category === filterValue) {
-                        card.style.display = 'flex';
-                        setTimeout(() => {
-                            card.style.transform = 'scale(1)';
-                            card.style.opacity = '1';
-                        }, 50);
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }, 200);
-            });
+            renderProkers(filterValue);
         });
     });
+
+    // --- Logbook Timeline Fetching & Rendering ---
+    const logbookTimelineContainer = document.getElementById('logbook-timeline-container');
+    const logbookFilterButtons = document.querySelectorAll('.logbook-filter-btn');
+    let logbookData = [];
+
+    const fetchLogbook = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/logbook`);
+            if (!response.ok) throw new Error('Gagal mengambil data logbook');
+            logbookData = await response.json();
+            renderLogbook('all');
+        } catch (error) {
+            console.error(error);
+            if (logbookTimelineContainer) {
+                logbookTimelineContainer.innerHTML = `<div class="error-msg" style="color: var(--color-primary); font-weight: 600; text-align: center; padding: 20px; width: 100%;">Gagal memuat Logbook. Pastikan server backend aktif.</div>`;
+            }
+        }
+    };
+
+    const renderLogbook = (filter) => {
+        if (!logbookTimelineContainer) return;
+        logbookTimelineContainer.innerHTML = '';
+
+        const filteredLogbook = logbookData.filter(entry => {
+            if (filter === 'all') return true;
+            return entry.phase === filter;
+        });
+
+        if (filteredLogbook.length === 0) {
+            logbookTimelineContainer.innerHTML = `<div class="empty-msg" style="text-align: center; padding: 40px; color: var(--color-text-muted); width: 100%;">Belum ada catatan logbook untuk fase ini.</div>`;
+            return;
+        }
+
+        filteredLogbook.forEach(entry => {
+            const timelineItem = document.createElement('div');
+            timelineItem.className = 'timeline-item';
+
+            // Phase badge styling
+            let phaseIcon = entry.phase === 'Pra-KKN' ? 'fa-clipboard-list' : 'fa-person-digging';
+
+            // Format YYYY-MM-DD to Indonesian date
+            const dateObj = new Date(entry.date);
+            const formattedDate = isNaN(dateObj.getTime()) ? entry.date : dateObj.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+            const contentHtml = typeof marked !== 'undefined' ? marked.parse(entry.content_markdown) : entry.content_markdown;
+
+            timelineItem.innerHTML = `
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">${formattedDate}</div>
+                <div class="timeline-content" style="cursor: pointer;">
+                    <h3>${escapeHTML(entry.title)}</h3>
+                    <div class="timeline-text">${contentHtml}</div>
+                    <span class="timeline-badge"><i class="fa-solid ${phaseIcon}"></i> ${entry.phase}</span>
+                </div>
+            `;
+
+            timelineItem.querySelector('.timeline-content').addEventListener('click', () => {
+                openDetailsModal(entry, 'Logbook');
+            });
+
+            logbookTimelineContainer.appendChild(timelineItem);
+        });
+    };
+
+    // Filter button click handler for logbook
+    logbookFilterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            logbookFilterButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.background = 'transparent';
+                btn.style.color = 'var(--color-primary)';
+            });
+            button.classList.add('active');
+            button.style.background = 'var(--color-primary)';
+            button.style.color = 'var(--color-white)';
+            const filterValue = button.getAttribute('data-filter');
+            renderLogbook(filterValue);
+        });
+    });
+
+    // Style active button initially
+    const activeLogbookBtn = document.querySelector('.logbook-filter-btn.active');
+    if (activeLogbookBtn) {
+        activeLogbookBtn.style.background = 'var(--color-primary)';
+        activeLogbookBtn.style.color = 'var(--color-white)';
+    }
 
     // --- 4. Interactive Team Photo Section ---
     const teamMembers = {
@@ -423,29 +569,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('comment-form');
     const messagesList = document.getElementById('messages-list');
     const messagesCountSpan = document.getElementById('messages-count');
+    let guestbookMessages = [];
 
-    // Default sample comments to display if guestbook is empty
-    const defaultComments = [
-        {
-            name: "Placeholder",
-            role: "Placeholder",
-            message: "Placeholder",
-            date: "Placeholder"
-        },
-    ];
+    // Helper to escape HTML and prevent XSS
+    const escapeHTML = (str) => {
+        if (!str) return '';
+        return str.replace(/[&<>'"]/g,
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag)
+        );
+    };
 
-    // Load messages from localStorage or initialize with defaults
-    let guestbookMessages = JSON.parse(localStorage.getItem('kkn_messages'));
-    if (!guestbookMessages || guestbookMessages.length === 0) {
-        guestbookMessages = defaultComments;
-        localStorage.setItem('kkn_messages', JSON.stringify(guestbookMessages));
-    }
+    const fetchGuestbook = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/guestbook`);
+            if (!response.ok) throw new Error('Gagal mengambil data buku tamu');
+            guestbookMessages = await response.json();
+            renderComments();
+        } catch (error) {
+            console.error(error);
+            if (messagesList) {
+                messagesList.innerHTML = `<div class="error-msg" style="color: var(--color-primary); font-weight: 600; padding: 20px;">Gagal memuat pesan buku tamu.</div>`;
+            }
+        }
+    };
 
-    // Render all comments
     const renderComments = () => {
         if (!messagesList) return;
         messagesList.innerHTML = '';
         if (messagesCountSpan) messagesCountSpan.textContent = guestbookMessages.length;
+
+        if (guestbookMessages.length === 0) {
+            messagesList.innerHTML = `<div class="empty-msg" style="color: var(--color-text-muted); padding: 20px; text-align: center;">Belum ada pesan yang disetujui.</div>`;
+            return;
+        }
 
         guestbookMessages.forEach(msg => {
             const commentCard = document.createElement('div');
@@ -463,58 +625,281 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Helper to escape HTML and prevent XSS
-    const escapeHTML = (str) => {
-        return str.replace(/[&<>'"]/g,
-            tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;'
-            }[tag] || tag)
-        );
-    };
-
     // Handle new message submission
     if (commentForm) {
-        commentForm.addEventListener('submit', (e) => {
+        commentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const nameInput = document.getElementById('input-name');
             const roleInput = document.getElementById('input-role');
             const messageInput = document.getElementById('input-message');
 
-            const dateNow = new Date();
-            const dateFormatted = dateNow.toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            }) + ', ' + dateNow.toLocaleTimeString('id-ID', {
-                hour: '2-digit',
-                minute: '2-digit'
-            }).replace('.', ':');
-
-            const newMessage = {
+            const payload = {
                 name: nameInput.value.trim(),
                 role: roleInput.value,
-                message: messageInput.value.trim(),
-                date: dateFormatted
+                message: messageInput.value.trim()
             };
 
-            // Prepend new comment to current messages list
-            guestbookMessages.unshift(newMessage);
-            localStorage.setItem('kkn_messages', JSON.stringify(guestbookMessages));
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/guestbook`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
 
-            // Render and reset form
-            renderComments();
-            commentForm.reset();
+                if (!response.ok) throw new Error('Gagal mengirim pesan');
 
-            // Smooth scroll first comment into view
-            messagesList.scrollTop = 0;
+                // Reset form
+                commentForm.reset();
+
+                // Show dynamic premium toast / notification
+                showNotification("Terima kasih! Pesan Anda berhasil dikirim dan sedang menunggu persetujuan admin.", "success");
+            } catch (error) {
+                console.error(error);
+                showNotification("Gagal mengirim pesan. Silakan coba beberapa saat lagi.", "error");
+            }
         });
     }
 
-    // Initialize comments on page load
-    renderComments();
+    // Dynamic premium toast notification helper
+    const showNotification = (message, type = "success") => {
+        let toast = document.getElementById('custom-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'custom-toast';
+            toast.style.position = 'fixed';
+            toast.style.bottom = '30px';
+            toast.style.right = '30px';
+            toast.style.zIndex = '10000';
+            toast.style.padding = '16px 28px';
+            toast.style.borderRadius = '12px';
+            toast.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+            toast.style.color = '#FFFFFF';
+            toast.style.fontWeight = '600';
+            toast.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            toast.style.transform = 'translateY(100px)';
+            toast.style.opacity = '0';
+            document.body.appendChild(toast);
+        }
+
+        toast.textContent = message;
+        toast.style.background = type === "success" ? "linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)" : "linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)";
+        
+        // Show
+        setTimeout(() => {
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        }, 50);
+
+        // Hide after 5 seconds
+        setTimeout(() => {
+            toast.style.transform = 'translateY(100px)';
+            toast.style.opacity = '0';
+        }, 5000);
+    };
+
+    // --- Details Modal & Image Slider Logic ---
+    const detailsModal = document.getElementById('details-modal');
+    const modalCategoryBadge = document.getElementById('modal-category-badge');
+    const modalDate = document.getElementById('modal-date');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMarkdownContent = document.getElementById('modal-markdown-content');
+    const modalGallerySide = document.getElementById('modal-gallery-side');
+    const carouselTrack = document.getElementById('carousel-track');
+    const carouselDotsContainer = document.getElementById('carousel-dots');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
+    const lightboxOverlay = document.getElementById('lightbox-overlay');
+    const lightboxImage = document.getElementById('lightbox-image');
+
+    let currentSlideIndex = 0;
+    let activeImages = [];
+
+    const openDetailsModal = (item, itemType) => {
+        if (!detailsModal) return;
+
+        // Reset slide index
+        currentSlideIndex = 0;
+
+        // Set title
+        if (modalTitle) modalTitle.textContent = item.title;
+
+        // Format and render description
+        const rawContent = itemType === 'Proker' ? item.description_markdown : item.content_markdown;
+        if (modalMarkdownContent) {
+            modalMarkdownContent.innerHTML = typeof marked !== 'undefined' ? marked.parse(rawContent) : rawContent;
+        }
+
+        // Set badge and date
+        if (modalCategoryBadge) {
+            modalCategoryBadge.textContent = itemType === 'Proker' ? item.type : item.phase;
+            modalCategoryBadge.className = 'badge'; // reset
+            if (itemType === 'Proker') {
+                modalCategoryBadge.classList.add(item.type === 'Proker Bersama' ? 'badge-success' : 'badge-info');
+            } else {
+                modalCategoryBadge.classList.add(item.phase === 'Pra-KKN' ? 'badge-warning' : 'badge-success');
+            }
+        }
+
+        if (modalDate) {
+            if (itemType === 'Logbook') {
+                const dateObj = new Date(item.date);
+                const formattedDate = isNaN(dateObj.getTime()) ? item.date : dateObj.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                modalDate.textContent = formattedDate;
+                modalDate.style.display = 'inline-block';
+            } else {
+                modalDate.textContent = `Status: ${item.status}`;
+                modalDate.style.display = 'inline-block';
+            }
+        }
+
+        // Handle Image Gallery
+        activeImages = item.image_urls || [];
+        if (activeImages.length === 0) {
+            if (modalGallerySide) modalGallerySide.style.display = 'none';
+        } else {
+            if (modalGallerySide) modalGallerySide.style.display = 'block';
+            
+            // Build carousel slides
+            if (carouselTrack) {
+                carouselTrack.innerHTML = '';
+                activeImages.forEach((imgUrl, idx) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
+                    
+                    const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${API_BASE_URL}${imgUrl}`;
+                    
+                    slide.innerHTML = `<img src="${fullUrl}" alt="Slide ${idx + 1}" class="carousel-image">`;
+                    
+                    // Click to Zoom
+                    slide.querySelector('img').addEventListener('click', () => {
+                        openLightbox(fullUrl);
+                    });
+                    
+                    carouselTrack.appendChild(slide);
+                });
+            }
+
+            // Build dot indicators
+            if (carouselDotsContainer) {
+                carouselDotsContainer.innerHTML = '';
+                activeImages.forEach((_, idx) => {
+                    const dot = document.createElement('span');
+                    dot.className = `carousel-dot ${idx === 0 ? 'active' : ''}`;
+                    dot.addEventListener('click', () => {
+                        goToSlide(idx);
+                    });
+                    carouselDotsContainer.appendChild(dot);
+                });
+            }
+
+            // Update slide positioning
+            updateCarousel();
+        }
+
+        // Show modal with transition
+        detailsModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent body scroll
+    };
+
+    window.closeDetailsModal = () => {
+        if (detailsModal) detailsModal.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore body scroll
+    };
+
+    // Carousel Navigation
+    const updateCarousel = () => {
+        if (!carouselTrack) return;
+        const offset = -currentSlideIndex * 100;
+        carouselTrack.style.transform = `translateX(${offset}%)`;
+        
+        // Update dots
+        if (carouselDotsContainer) {
+            const dots = carouselDotsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlideIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Show/hide arrows based on index / wrap-around
+        if (prevBtn) prevBtn.style.display = activeImages.length <= 1 ? 'none' : 'flex';
+        if (nextBtn) nextBtn.style.display = activeImages.length <= 1 ? 'none' : 'flex';
+    };
+
+    const goToSlide = (index) => {
+        if (index < 0) {
+            currentSlideIndex = activeImages.length - 1;
+        } else if (index >= activeImages.length) {
+            currentSlideIndex = 0;
+        } else {
+            currentSlideIndex = index;
+        }
+        updateCarousel();
+    };
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToSlide(currentSlideIndex - 1);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToSlide(currentSlideIndex + 1);
+        });
+    }
+
+    // Touch support (swipe) for Carousel
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    if (carouselTrack) {
+        carouselTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        carouselTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+    
+    const handleSwipe = () => {
+        const threshold = 50; // swipe minimum distance in pixels
+        if (touchStartX - touchEndX > threshold) {
+            // Swiped left, next slide
+            goToSlide(currentSlideIndex + 1);
+        } else if (touchEndX - touchStartX > threshold) {
+            // Swiped right, prev slide
+            goToSlide(currentSlideIndex - 1);
+        }
+    };
+
+    // --- Lightbox Zoom Logic ---
+    const openLightbox = (imgUrl) => {
+        if (!lightboxOverlay || !lightboxImage) return;
+        lightboxImage.src = imgUrl;
+        lightboxOverlay.classList.remove('hidden');
+    };
+
+    window.closeLightbox = () => {
+        if (lightboxOverlay) lightboxOverlay.classList.add('hidden');
+    };
+
+    // Load dynamic data on startup
+    fetchProkers();
+    fetchLogbook();
+    fetchGuestbook();
 });

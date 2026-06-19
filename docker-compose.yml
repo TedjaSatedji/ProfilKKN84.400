@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8067:8067"
+    volumes:
+      - ./backend/database.db:/app/database.db
+      - ./backend/uploads:/app/uploads
+    restart: always
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token eyJhIjoiZGEyMTRiNWVkMjZiOWNlMDEwOWFlMmY1NmY2Y2Q1ODMiLCJ0IjoiZWM3MTJiOTUtMWZiMC00MWU3LWJhNmMtYjc5YmRlMzBjMWNjIiwicyI6Ik5XWTJNakkxTnpFdE5HRXlOQzAwT1RNNUxUZzBNakl0TkRsbFpUTmpNamhpTjJJeSJ9
+    restart: always
+    depends_on:
+      - backend
