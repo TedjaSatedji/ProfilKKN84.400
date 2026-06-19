@@ -1,3 +1,4 @@
+import os
 from main import SessionLocal, AdminUserDB, ProkerDB, LogbookDB, GuestbookDB, get_password_hash
 import datetime
 
@@ -5,14 +6,20 @@ def seed():
     db = SessionLocal()
     try:
         # 1. Create Default Admin User
-        admin = db.query(AdminUserDB).filter(AdminUserDB.username == "admin").first()
+        admin_username = os.environ.get("ADMIN_USERNAME", "admin")
+        admin_password = os.environ.get("ADMIN_PASSWORD", "admin123")
+        
+        if admin_username == "admin" and admin_password == "admin123":
+            print("WARNING: Using default admin credentials (admin / admin123). Please set ADMIN_USERNAME and ADMIN_PASSWORD environment variables for production.")
+
+        admin = db.query(AdminUserDB).filter(AdminUserDB.username == admin_username).first()
         if not admin:
             admin = AdminUserDB(
-                username="admin",
-                password_hash=get_password_hash("admin123")  # Default password
+                username=admin_username,
+                password_hash=get_password_hash(admin_password)
             )
             db.add(admin)
-            print("Default admin created: admin / admin123")
+            print(f"Admin user created: {admin_username}")
         else:
             print("Admin user already exists.")
 

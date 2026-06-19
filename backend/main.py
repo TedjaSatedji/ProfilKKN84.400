@@ -12,7 +12,7 @@ import bcrypt
 from jose import JWTError, jwt
 
 # --- Configuration ---
-SECRET_KEY = "kkn_super_secret_key_change_me_in_production"
+SECRET_KEY = os.environ.get("SECRET_KEY", "kkn_super_secret_key_change_me_in_production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 Days
 

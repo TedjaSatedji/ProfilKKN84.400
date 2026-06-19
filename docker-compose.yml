@@ -10,6 +10,10 @@ services:
     volumes:
       - ./backend/database.db:/app/database.db
       - ./backend/uploads:/app/uploads
+    environment:
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - SECRET_KEY=${SECRET_KEY:-kkn_super_secret_key_change_me_in_production}
     restart: always
 
   cloudflared:
