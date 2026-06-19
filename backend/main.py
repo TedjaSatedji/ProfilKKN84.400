@@ -34,7 +34,7 @@ app = FastAPI(title="KKN AA 84.400 Backend API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allows all origins (flexible for GitHub Pages / local development)
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
