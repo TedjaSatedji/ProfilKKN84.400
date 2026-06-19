@@ -573,6 +573,161 @@
             background: var(--color-danger);
             transform: scale(1.1);
         }
+
+        /* --- Mobile Responsiveness (Responsive adjustments for Admin Dashboard) --- */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 20px 15px;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .sidebar-brand {
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+
+            .nav-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .nav-item {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+                flex-grow: 1;
+                justify-content: center;
+            }
+
+            .sidebar-footer {
+                padding-top: 15px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .header-area {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+                margin-bottom: 25px;
+                padding-bottom: 15px;
+                text-align: center;
+            }
+
+            .header-title h2 {
+                font-size: 1.6rem;
+            }
+
+            .btn-add {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .table-card {
+                padding: 12px;
+                margin: 0 -15px;
+                border-radius: 0;
+                box-shadow: none;
+                border-left: none;
+                border-right: none;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 12px 10px;
+            }
+
+            .action-btns {
+                gap: 4px;
+            }
+
+            .btn-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            /* Moderation Cards stacking */
+            .moderation-card {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .moderation-card .action-btns {
+                justify-content: flex-end;
+            }
+
+            /* Modal layout stack */
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-card {
+                max-height: 95vh;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+
+            .modal-footer {
+                padding: 15px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .modal-footer .btn {
+                flex-grow: 1;
+                justify-content: center;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .editor-split {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .editor-textarea, .preview-box {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .login-title {
+                font-size: 1.5rem;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-item {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
