@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Teknik Perminyakan",
             quote: "Mendokumentasikan setiap kegiatan KKN dalam bentuk visual dan desain yang bermakna.",
             iconClass: "fa-solid fa-camera-retro",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/albetsurbaktii",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/albet.JPG"
         },
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Administrasi Bisnis",
             quote: "Mengelola anggaran pengabdian secara transparan, efisien, dan bertanggung jawab.",
             iconClass: "fa-solid fa-wallet",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/ardilazaa_",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/ardilllla.JPG"
         },
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Teknik Informatika",
             quote: "Memimpin dengan dedikasi untuk mengabdi secara nyata bagi kemajuan Andongsili.",
             iconClass: "fa-solid fa-user-tie",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/tedja.jaya",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/dewa.JPG"
         },
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Manajemen",
             quote: "Penyusunan administrasi dan dokumentasi laporan yang rapi demi keberlanjutan KKN.",
             iconClass: "fa-solid fa-file-signature",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/fadiazhrb",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/DSCF4345.JPG"
         },
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Teknik Industri",
             quote: "Menyiapkan dan mengelola perlengkapan dengan teliti agar setiap kegiatan berjalan lancar.",
             iconClass: "fa-solid fa-boxes-stacked",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/mfazafdhlrhmn",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/faza.JPG"
         },
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Teknik Geologi",
             quote: "Membangun relasi harmonis dan menjembatani komunikasi antara mahasiswa dan warga desa.",
             iconClass: "fa-solid fa-bullhorn",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/auflhm",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/ilham.JPG"
         },
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Teknik Metalurgi",
             quote: "Mengarsipkan setiap data dan laporan dengan tertib untuk kelancaran administrasi kelompok.",
             iconClass: "fa-solid fa-file-signature",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/nabilladaraa",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/rara.JPG"
         },
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Teknik Pertambangan",
             quote: "Kesiapan teknis di lapangan adalah pondasi kesuksesan setiap program kerja.",
             iconClass: "fa-solid fa-screwdriver-wrench",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/rifkifrs_",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/rifky.JPG"
         },
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Agroteknologi",
             quote: "Mendokumentasikan setiap momen pengabdian agar cerita KKN tetap hidup dan menginspirasi.",
             iconClass: "fa-solid fa-palette",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/aichanie._",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/tata.JPG"
         },
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             major: "Akuntansi",
             quote: "Mengoordinasikan dan melaksanakan kegiatan acara demi tercapainya program kerja yang bermakna.",
             iconClass: "fa-solid fa-calendar-check",
-            instagram: "https://instagram.com/",
+            instagram: "https://instagram.com/nniissaaz",
             linkedin: "https://linkedin.com/",
             photo: "assets/profilepic/zahra.JPG"
         }
