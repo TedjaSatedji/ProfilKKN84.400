@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     handleRouting();
 
     // --- 3. API Base URL and Data Loading ---
-    const API_BASE_URL = 'http://127.0.0.1:8067'; // Cloudflare Tunnel URL or Local IP
+    const API_BASE_URL = 'https://apikkn.fyuko.app'; // Cloudflare Tunnel URL or Local IP
 
     const prokerGridContainer = document.getElementById('proker-grid-container');
     const filterButtons = document.querySelectorAll('.filter-btn');
