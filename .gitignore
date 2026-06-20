@@ -3,3 +3,4 @@ backend/uploads
 __pycache__
 .env
 backend/database.db
+assets_backup/
