@@ -1,4 +1,5 @@
 implementation_plan.md
 backend/uploads
 __pycache__
-.env
+.env
+backend/database.db

@@ -196,6 +196,67 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Image Upload Helpers ---
+    const compressImage = (file, options = { maxWidth: 1600, maxHeight: 1600, quality: 0.85 }) => {
+        return new Promise((resolve, reject) => {
+            // Skip compression for GIFs to preserve animations
+            if (file.type === 'image/gif') {
+                resolve(file);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Calculate new dimensions keeping aspect ratio
+                    if (width > height) {
+                        if (width > options.maxWidth) {
+                            height = Math.round((height * options.maxWidth) / width);
+                            width = options.maxWidth;
+                        }
+                    } else {
+                        if (height > options.maxHeight) {
+                            width = Math.round((width * options.maxHeight) / height);
+                            height = options.maxHeight;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Convert canvas to a JPEG blob with compression quality
+                    canvas.toBlob((blob) => {
+                        if (!blob) {
+                            reject(new Error("Gagal mengompresi gambar"));
+                            return;
+                        }
+                        
+                        // Change extension to .jpg for the compressed file
+                        const originalName = file.name;
+                        const baseName = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
+                        const newName = `${baseName}.jpg`;
+
+                        const compressedFile = new File([blob], newName, {
+                            type: 'image/jpeg',
+                            lastModified: Date.now()
+                        });
+                        resolve(compressedFile);
+                    }, 'image/jpeg', options.quality);
+                };
+                img.onerror = (err) => reject(new Error("Gagal memuat gambar untuk kompresi"));
+            };
+            reader.onerror = (err) => reject(new Error("Gagal membaca file gambar"));
+        });
+    };
+
     const uploadImageFile = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
@@ -225,7 +286,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 continue;
             }
             try {
-                const res = await uploadImageFile(file);
+                // Compress the image before uploading
+                const compressedFile = await compressImage(file);
+                const res = await uploadImageFile(compressedFile);
                 currentList.push(res.url);
                 showToast(`Gambar ${file.name} berhasil diunggah`, "success");
             } catch (err) {
