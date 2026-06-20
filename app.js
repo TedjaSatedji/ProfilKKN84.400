@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-camera-retro",
             instagram: "https://instagram.com/albetsurbaktii",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/albet.JPG"
+            photo: "assets/profilepic/albet.webp"
         },
         'ardila': {
             name: "Ardila Zakilla Putri",
@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-wallet",
             instagram: "https://instagram.com/ardilazaa_",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/ardilllla.JPG"
+            photo: "assets/profilepic/ardilllla.webp"
         },
         'dewa': {
             name: "Anak Agung Ngurah Sadewa Tedja Jaya Negara",
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-user-tie",
             instagram: "https://instagram.com/tedja.jaya",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/dewa.JPG"
+            photo: "assets/profilepic/dewa.webp"
         },
         'fadia': {
             name: "Fadia Azhar Budiwihani",
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-file-signature",
             instagram: "https://instagram.com/fadiazhrb",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/DSCF4345.JPG"
+            photo: "assets/profilepic/DSCF4345.webp"
         },
         'faza': {
             name: "Muhammad Faza Fadhlurrahman",
@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-boxes-stacked",
             instagram: "https://instagram.com/mfazafdhlrhmn",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/faza.JPG"
+            photo: "assets/profilepic/faza.webp"
         },
         'ilham': {
             name: "Aufa Ilham Annindra",
@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-bullhorn",
             instagram: "https://instagram.com/auflhm",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/ilham.JPG"
+            photo: "assets/profilepic/ilham.webp"
         },
         'rara': {
             name: "Nabilla Dara Larasaty",
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-file-signature",
             instagram: "https://instagram.com/nabilladaraa",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/rara.JPG"
+            photo: "assets/profilepic/rara.webp"
         },
         'rifki': {
             name: "Rifki Farros Pandu Pradana",
@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-screwdriver-wrench",
             instagram: "https://instagram.com/rifkifrs_",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/rifky.JPG"
+            photo: "assets/profilepic/rifky.webp"
         },
         'tata': {
             name: "Dinta Ayu Amalia",
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-palette",
             instagram: "https://instagram.com/aichanie._",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/tata.JPG"
+            photo: "assets/profilepic/tata.webp"
         },
         'zahra': {
             name: "Zahra Aulia Chairunnisa",
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iconClass: "fa-solid fa-calendar-check",
             instagram: "https://instagram.com/nniissaaz",
             linkedin: "https://linkedin.com/",
-            photo: "assets/profilepic/zahra.JPG"
+            photo: "assets/profilepic/zahra.webp"
         }
     };
 
