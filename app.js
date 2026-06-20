@@ -214,12 +214,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const contentHtml = typeof marked !== 'undefined' ? marked.parse(entry.content_markdown) : entry.content_markdown;
 
+            // Build gallery if there are uploaded images
+            let imagesHtml = '';
+            if (entry.image_urls && entry.image_urls.length > 0) {
+                const count = entry.image_urls.length;
+                const imagesToShow = entry.image_urls.slice(0, 3);
+                
+                imagesHtml = `<div class="timeline-gallery gallery-${imagesToShow.length}">`;
+                imagesToShow.forEach((imgUrl, idx) => {
+                    const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${API_BASE_URL}${imgUrl}`;
+                    const isLast = idx === 2 && count > 3;
+                    
+                    imagesHtml += `
+                        <div class="timeline-gallery-item">
+                            <img src="${fullUrl}" alt="Preview" class="timeline-gallery-img">
+                            ${isLast ? `<div class="gallery-overlay"><span>+${count - 3}</span></div>` : ''}
+                        </div>
+                    `;
+                });
+                imagesHtml += `</div>`;
+            }
+
             timelineItem.innerHTML = `
                 <div class="timeline-dot"></div>
                 <div class="timeline-date">${formattedDate}</div>
                 <div class="timeline-content" style="cursor: pointer;">
                     <h3>${escapeHTML(entry.title)}</h3>
                     <div class="timeline-text">${contentHtml}</div>
+                    ${imagesHtml}
                     <span class="timeline-badge"><i class="fa-solid ${phaseIcon}"></i> ${entry.phase}</span>
                 </div>
             `;
