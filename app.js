@@ -167,7 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let iconHtml = '';
             if (avatarUrl) {
-                iconHtml = `<img src="${avatarUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;">`;
+                const isLogo = avatarUrl.includes('LogoKKNNoBackground.webp');
+                const styleAttr = isLogo 
+                    ? 'width: 100%; height: 100%; object-fit: contain; padding: 10px; background-color: var(--color-white); border-radius: 16px; display: block;'
+                    : 'width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;';
+                iconHtml = `<img src="${avatarUrl}" alt="Avatar" style="${styleAttr}">`;
             } else {
                 iconHtml = `<i class="fa-solid ${icon}"></i>`;
             }
@@ -869,12 +873,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Handle Image Gallery
+        // Handle Image Gallery and Center layout if no images
+        const splitLayout = document.querySelector('.modal-split-layout');
         activeImages = item.image_urls || [];
         if (activeImages.length === 0) {
             if (modalGallerySide) modalGallerySide.style.display = 'none';
+            if (splitLayout) splitLayout.classList.add('no-gallery');
         } else {
             if (modalGallerySide) modalGallerySide.style.display = 'block';
+            if (splitLayout) splitLayout.classList.remove('no-gallery');
             
             // Build carousel slides
             if (carouselTrack) {
