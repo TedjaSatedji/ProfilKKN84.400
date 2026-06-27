@@ -166,12 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let iconHtml = '';
+            let activeIconBoxStyle = '';
             if (avatarUrl) {
                 const isLogo = avatarUrl.includes('LogoKKNNoBackground.webp');
                 const styleAttr = isLogo 
                     ? 'width: 100%; height: 100%; object-fit: contain; padding: 10px; background-color: var(--color-white); border-radius: 16px; display: block;'
                     : 'width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;';
                 iconHtml = `<img src="${avatarUrl}" alt="Avatar" style="${styleAttr}">`;
+                activeIconBoxStyle = 'background-color: transparent; border: none;';
             } else {
                 iconHtml = `<i class="fa-solid ${icon}"></i>`;
             }
@@ -180,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const descHtml = typeof marked !== 'undefined' ? marked.parse(proker.description_markdown) : proker.description_markdown;
 
             prokerCard.innerHTML = `
-                <div class="proker-icon-box ${iconBoxClass}">${iconHtml}</div>
+                <div class="proker-icon-box ${iconBoxClass}" style="${activeIconBoxStyle}">${iconHtml}</div>
                 <div class="proker-body">
                     <span class="proker-tag">${proker.type} ${proker.owner_name ? `• ${proker.owner_name}` : ''}</span>
                     <h3 class="proker-title">${escapeHTML(proker.title)}</h3>
