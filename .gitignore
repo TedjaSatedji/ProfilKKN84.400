@@ -6,3 +6,5 @@ backend/database.db
 assets_backup/
 .venv/  
 backend/database.db
+backend/add_supporting_prokers.py
+backend/populate_proposal_prokers.py
