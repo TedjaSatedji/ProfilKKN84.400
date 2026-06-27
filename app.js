@@ -734,7 +734,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCategoryBadge = document.getElementById('modal-category-badge');
     const modalDate = document.getElementById('modal-date');
     const modalTitle = document.getElementById('modal-title');
+    const modalOwnerRow = document.getElementById('modal-owner-row');
+    const modalOwnerName = document.getElementById('modal-owner-name');
+    const modalOwnerAvatar = document.getElementById('modal-owner-avatar');
+    const modalOwnerIcon = document.getElementById('modal-owner-icon');
     const modalMarkdownContent = document.getElementById('modal-markdown-content');
+
+    const ownerPhotos = {
+        'albet': 'assets/profilepic/albet.webp',
+        'ardila': 'assets/profilepic/ardilllla.webp',
+        'dewa': 'assets/profilepic/dewa.webp',
+        'fadia': 'assets/profilepic/DSCF4345.webp',
+        'faza': 'assets/profilepic/faza.webp',
+        'ilham': 'assets/profilepic/ilham.webp',
+        'rara': 'assets/profilepic/rara.webp',
+        'rifki': 'assets/profilepic/rifky.webp',
+        'tata': 'assets/profilepic/tata.webp',
+        'zahra': 'assets/profilepic/zahra.webp'
+    };
     const modalGallerySide = document.getElementById('modal-gallery-side');
     const carouselTrack = document.getElementById('carousel-track');
     const carouselDotsContainer = document.getElementById('carousel-dots');
@@ -754,6 +771,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Set title
         if (modalTitle) modalTitle.textContent = item.title;
+
+        // Handle Penanggung Jawab visibility and avatars
+        if (itemType === 'Proker') {
+            const ownerNameVal = item.owner_name || (item.type === 'Proker Bersama' ? 'Kelompok AA 84.400 (Bersama)' : null);
+            if (ownerNameVal) {
+                if (modalOwnerName) modalOwnerName.textContent = ownerNameVal;
+                
+                // Determine avatar
+                let avatarUrl = '';
+                if (item.owner_name) {
+                    const nameLower = item.owner_name.toLowerCase();
+                    const matchedKey = Object.keys(ownerPhotos).find(key => nameLower.includes(key));
+                    if (matchedKey) {
+                        avatarUrl = ownerPhotos[matchedKey];
+                    }
+                } else if (item.type === 'Proker Bersama') {
+                    avatarUrl = 'assets/logo/LogoKKNNoBackground.webp'; // Fallback to KKN logo for group/joint prokers
+                }
+
+                if (avatarUrl) {
+                    if (modalOwnerAvatar) {
+                        modalOwnerAvatar.src = avatarUrl;
+                        modalOwnerAvatar.style.display = 'inline-block';
+                    }
+                    if (modalOwnerIcon) modalOwnerIcon.style.display = 'none';
+                } else {
+                    if (modalOwnerAvatar) modalOwnerAvatar.style.display = 'none';
+                    if (modalOwnerIcon) modalOwnerIcon.style.display = 'inline-block';
+                }
+
+                if (modalOwnerRow) modalOwnerRow.style.display = 'flex';
+            } else {
+                if (modalOwnerRow) modalOwnerRow.style.display = 'none';
+            }
+        } else {
+            if (modalOwnerRow) modalOwnerRow.style.display = 'none';
+        }
 
         // Format and render description
         const rawContent = itemType === 'Proker' ? item.description_markdown : item.content_markdown;
@@ -794,8 +848,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Handle Image Gallery
+        // Handle Image Gallery (with default covers for Prokers)
         activeImages = item.image_urls || [];
+        if (activeImages.length === 0) {
+            if (itemType === 'Proker') {
+                // Determine default image: person photo for individual, group photo for bersama/others
+                let defaultImg = 'assets/team/DSCF4365.webp'; // Group photo fallback
+                if (item.owner_name) {
+                    const nameLower = item.owner_name.toLowerCase();
+                    const matchedKey = Object.keys(ownerPhotos).find(key => nameLower.includes(key));
+                    if (matchedKey) {
+                        defaultImg = ownerPhotos[matchedKey];
+                    }
+                }
+                activeImages = [defaultImg];
+            }
+        }
+
         if (activeImages.length === 0) {
             if (modalGallerySide) modalGallerySide.style.display = 'none';
         } else {
