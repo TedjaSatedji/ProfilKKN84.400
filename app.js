@@ -159,10 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (matchedKey) {
                     avatarUrl = ownerPhotos[matchedKey];
                 } else {
-                    avatarUrl = 'assets/team/DSCF4365.webp'; // Fallback to group photo
+                    avatarUrl = 'assets/logo/LogoKKNNoBackground.webp'; // Fallback to KKN logo
                 }
             } else {
-                avatarUrl = 'assets/team/DSCF4365.webp'; // Fallback to group photo for joint prokers
+                avatarUrl = 'assets/logo/LogoKKNNoBackground.webp'; // KKN logo for joint prokers
             }
 
             let iconHtml = '';
@@ -869,23 +869,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Handle Image Gallery (with default covers for Prokers)
+        // Handle Image Gallery
         activeImages = item.image_urls || [];
-        if (activeImages.length === 0) {
-            if (itemType === 'Proker') {
-                // Determine default image: person photo for individual, group photo for bersama/others
-                let defaultImg = 'assets/team/DSCF4365.webp'; // Group photo fallback
-                if (item.owner_name) {
-                    const nameLower = item.owner_name.toLowerCase();
-                    const matchedKey = Object.keys(ownerPhotos).find(key => nameLower.includes(key));
-                    if (matchedKey) {
-                        defaultImg = ownerPhotos[matchedKey];
-                    }
-                }
-                activeImages = [defaultImg];
-            }
-        }
-
         if (activeImages.length === 0) {
             if (modalGallerySide) modalGallerySide.style.display = 'none';
         } else {
