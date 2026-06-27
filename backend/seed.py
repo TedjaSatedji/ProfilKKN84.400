@@ -57,6 +57,14 @@ def seed():
                     description_markdown="Membangun portal informasi digital desa yang memuat data kependudukan, struktur pemerintahan desa, potensi wisata, dan peta interaktif wilayah desa.",
                     status="Sedang Berjalan",
                     image_urls=[]
+                ),
+                ProkerDB(
+                    type="Proker Pendukung",
+                    owner_name="Ilham",
+                    title="Penyuluhan dan Edukasi Keamanan Digital (Cybersecurity) untuk Remaja",
+                    description_markdown="Memberikan pemahaman dasar mengenai pentingnya menjaga data pribadi di media sosial, mengenali phising, dan etika berinternet (cyber ethics) bagi karang taruna Desa Andongsili.",
+                    status="Sedang Berjalan",
+                    image_urls=[]
                 )
             ]
             db.bulk_save_objects(sample_prokers)

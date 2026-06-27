@@ -1700,6 +1700,7 @@ textarea {
 .badge-warning { background-color: rgba(241, 196, 15, 0.15); color: #b78a00; }
 .badge-danger { background-color: rgba(231, 76, 60, 0.15); color: #e74c3c; }
 .badge-info { background-color: rgba(90, 134, 203, 0.15); color: var(--color-secondary); }
+.badge-accent { background-color: rgba(242, 174, 188, 0.25); color: var(--color-primary); }
 
 /* --- Details Modal (Glassmorphic) --- */
 .custom-modal {

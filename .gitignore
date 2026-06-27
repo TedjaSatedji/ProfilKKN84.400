@@ -4,3 +4,5 @@ __pycache__
 .env
 backend/database.db
 assets_backup/
+.venv/  
+backend/database.db

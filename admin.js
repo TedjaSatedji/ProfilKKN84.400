@@ -363,8 +363,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (proker.status === 'Selesai') badgeClass = 'badge-success';
             if (proker.status === 'Sedang Berjalan') badgeClass = 'badge-info';
 
+            let typeBadgeClass = 'badge-info';
+            if (proker.type === 'Proker Bersama') {
+                typeBadgeClass = 'badge-success';
+            } else if (proker.type === 'Proker Pendukung') {
+                typeBadgeClass = 'badge-accent';
+            }
+
             tr.innerHTML = `
-                <td><span class="badge ${proker.type === 'Proker Bersama' ? 'badge-success' : 'badge-info'}">${proker.type}</span></td>
+                <td><span class="badge ${typeBadgeClass}">${proker.type}</span></td>
                 <td><strong>${escapeHTML(proker.owner_name) || '-'}</strong></td>
                 <td>${escapeHTML(proker.title)}</td>
                 <td><span class="badge ${badgeClass}">${proker.status}</span></td>
@@ -386,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle owner input field visibility based on type selection
     if (prokerTypeSelect) {
         prokerTypeSelect.addEventListener('change', () => {
-            if (prokerTypeSelect.value === 'Proker Individu') {
+            if (prokerTypeSelect.value === 'Proker Individu' || prokerTypeSelect.value === 'Proker Pendukung') {
                 ownerGroup.classList.remove('hidden');
                 prokerOwnerInput.setAttribute('required', 'true');
             } else {
@@ -426,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const id = document.getElementById('edit-proker-id').value;
             const type = prokerTypeSelect.value;
-            const owner_name = type === 'Proker Individu' ? prokerOwnerInput.value.trim() : null;
+            const owner_name = (type === 'Proker Individu' || type === 'Proker Pendukung') ? prokerOwnerInput.value.trim() : null;
             const title = document.getElementById('proker-title').value.trim();
             const statusVal = document.getElementById('proker-status').value;
             const description_markdown = prokerDescTextarea.value.trim();
@@ -467,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('edit-proker-id').value = proker.id;
         prokerTypeSelect.value = proker.type;
 
-        if (proker.type === 'Proker Individu') {
+        if (proker.type === 'Proker Individu' || proker.type === 'Proker Pendukung') {
             ownerGroup.classList.remove('hidden');
             prokerOwnerInput.setAttribute('required', 'true');
             prokerOwnerInput.value = proker.owner_name || '';

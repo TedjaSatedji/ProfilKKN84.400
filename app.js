@@ -128,8 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Determine background and icon color based on category/owner
-            let iconBoxClass = proker.type === 'Proker Bersama' ? 'bg-maroon' : 'bg-blue';
-            let icon = proker.type === 'Proker Bersama' ? 'fa-people-group' : 'fa-user-gear';
+            let iconBoxClass = 'bg-blue';
+            let icon = 'fa-user-gear';
+            if (proker.type === 'Proker Bersama') {
+                iconBoxClass = 'bg-maroon';
+                icon = 'fa-people-group';
+            } else if (proker.type === 'Proker Pendukung') {
+                iconBoxClass = 'bg-pink';
+                icon = 'fa-handshake-angle';
+            }
 
             // Parse description using marked if available
             const descHtml = typeof marked !== 'undefined' ? marked.parse(proker.description_markdown) : proker.description_markdown;
@@ -759,7 +766,13 @@ document.addEventListener('DOMContentLoaded', () => {
             modalCategoryBadge.textContent = itemType === 'Proker' ? item.type : item.phase;
             modalCategoryBadge.className = 'badge'; // reset
             if (itemType === 'Proker') {
-                modalCategoryBadge.classList.add(item.type === 'Proker Bersama' ? 'badge-success' : 'badge-info');
+                if (item.type === 'Proker Bersama') {
+                    modalCategoryBadge.classList.add('badge-success');
+                } else if (item.type === 'Proker Pendukung') {
+                    modalCategoryBadge.classList.add('badge-accent');
+                } else {
+                    modalCategoryBadge.classList.add('badge-info');
+                }
             } else {
                 modalCategoryBadge.classList.add(item.phase === 'Pra-KKN' ? 'badge-warning' : 'badge-success');
             }
