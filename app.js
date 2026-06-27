@@ -462,7 +462,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailIcon = document.getElementById('detail-icon');
     const detailPhoto = document.getElementById('detail-photo');
     const detailIg = document.getElementById('detail-ig');
-    const detailLi = document.getElementById('detail-li');
 
     if (hotspots && tooltip && svgElement) {
         hotspots.forEach(hotspot => {
@@ -540,7 +539,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (detailMajor) detailMajor.textContent = member.major;
                 if (detailQuote) detailQuote.textContent = `"${member.quote}"`;
                 if (detailIg) detailIg.href = member.instagram;
-                if (detailLi) detailLi.href = member.linkedin;
 
                 if (member.photo) {
                     if (detailPhoto) {

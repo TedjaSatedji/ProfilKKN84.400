@@ -1171,17 +1171,17 @@ button, input, select, textarea {
 
 .detail-socials {
     display: flex;
-    gap: 16px;
+    justify-content: center;
     width: 100%;
 }
 
 .detail-socials a {
-    flex: 1;
+    min-width: 180px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px;
+    padding: 12px 24px;
     border-radius: 12px;
     font-weight: 700;
     font-size: 0.9rem;
