@@ -82,6 +82,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
     let prokersData = [];
 
+    const ownerPhotos = {
+        'albet': 'assets/profilepic/albet.webp',
+        'ardila': 'assets/profilepic/ardilllla.webp',
+        'dewa': 'assets/profilepic/dewa.webp',
+        'fadia': 'assets/profilepic/DSCF4345.webp',
+        'faza': 'assets/profilepic/faza.webp',
+        'ilham': 'assets/profilepic/ilham.webp',
+        'rara': 'assets/profilepic/rara.webp',
+        'rifki': 'assets/profilepic/rifky.webp',
+        'tata': 'assets/profilepic/tata.webp',
+        'zahra': 'assets/profilepic/zahra.webp'
+    };
+
     const fetchProkers = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/api/proker`);
@@ -138,11 +151,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon = 'fa-handshake-angle';
             }
 
+            // Resolve avatar/image for the circular icon box
+            let avatarUrl = '';
+            if (proker.owner_name) {
+                const nameLower = proker.owner_name.toLowerCase();
+                const matchedKey = Object.keys(ownerPhotos).find(key => nameLower.includes(key));
+                if (matchedKey) {
+                    avatarUrl = ownerPhotos[matchedKey];
+                } else {
+                    avatarUrl = 'assets/team/DSCF4365.webp'; // Fallback to group photo
+                }
+            } else {
+                avatarUrl = 'assets/team/DSCF4365.webp'; // Fallback to group photo for joint prokers
+            }
+
+            let iconHtml = '';
+            if (avatarUrl) {
+                iconHtml = `<img src="${avatarUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block;">`;
+            } else {
+                iconHtml = `<i class="fa-solid ${icon}"></i>`;
+            }
+
             // Parse description using marked if available
             const descHtml = typeof marked !== 'undefined' ? marked.parse(proker.description_markdown) : proker.description_markdown;
 
             prokerCard.innerHTML = `
-                <div class="proker-icon-box ${iconBoxClass}"><i class="fa-solid ${icon}"></i></div>
+                <div class="proker-icon-box ${iconBoxClass}">${iconHtml}</div>
                 <div class="proker-body">
                     <span class="proker-tag">${proker.type} ${proker.owner_name ? `• ${proker.owner_name}` : ''}</span>
                     <h3 class="proker-title">${escapeHTML(proker.title)}</h3>
@@ -739,19 +773,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalOwnerAvatar = document.getElementById('modal-owner-avatar');
     const modalOwnerIcon = document.getElementById('modal-owner-icon');
     const modalMarkdownContent = document.getElementById('modal-markdown-content');
-
-    const ownerPhotos = {
-        'albet': 'assets/profilepic/albet.webp',
-        'ardila': 'assets/profilepic/ardilllla.webp',
-        'dewa': 'assets/profilepic/dewa.webp',
-        'fadia': 'assets/profilepic/DSCF4345.webp',
-        'faza': 'assets/profilepic/faza.webp',
-        'ilham': 'assets/profilepic/ilham.webp',
-        'rara': 'assets/profilepic/rara.webp',
-        'rifki': 'assets/profilepic/rifky.webp',
-        'tata': 'assets/profilepic/tata.webp',
-        'zahra': 'assets/profilepic/zahra.webp'
-    };
     const modalGallerySide = document.getElementById('modal-gallery-side');
     const carouselTrack = document.getElementById('carousel-track');
     const carouselDotsContainer = document.getElementById('carousel-dots');
